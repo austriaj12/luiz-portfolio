@@ -16,8 +16,8 @@ export default function Home() {
         
         {/* Header / Intro */}
         <header className="mb-6 flex flex-col md:flex-row items-center justify-between gap-4 relative">
-          <div className="flex flex-col md:flex-row items-center gap-4">
-            <div className="relative w-24 h-24 shrink-0 rounded-2xl overflow-hidden border-4 border-white shadow-lg">
+          <div className="flex flex-row items-center gap-4">
+            <div className="relative w-16 h-16 md:w-24 md:h-24 shrink-0 rounded-2xl overflow-hidden border-4 border-white shadow-lg">
               <Image 
                 src={profilePic} 
                 alt="John Luiz Sierra Austria" 
@@ -25,9 +25,9 @@ export default function Home() {
                 className="object-cover"
               />
             </div>
-            <div className="text-center md:text-left">
-              <h1 className="text-3xl md:text-5xl font-bold tracking-tight mb-2">John Luiz Sierra Austria</h1>
-              <p className={`text-xl ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>Aspiring Software & Web Developer | CS Student</p>
+            <div className="text-left">
+              <h1 className="text-xl md:text-5xl font-bold tracking-tight mb-1 md:mb-2">John Luiz Sierra Austria</h1>
+              <p className={`text-sm md:text-xl ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>Aspiring Software & Web Developer | CS Student</p>
             </div>
           </div>
 
@@ -54,7 +54,7 @@ export default function Home() {
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 text-indigo-500"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                 About Me
               </h2>
-              <div className={`${isDarkMode ? 'text-slate-300' : 'text-slate-600'} leading-relaxed text-lg space-y-4`}>
+              <div className={`${isDarkMode ? 'text-slate-300' : 'text-slate-600'} leading-relaxed text-base md:text-lg space-y-4`}>
                 <p>
                   I am a dedicated <strong className={isDarkMode ? 'text-white' : 'text-slate-900'}>Computer Science student</strong> at the University of Rizal System (Class of 2026) with a strong passion for <strong className={isDarkMode ? 'text-white' : 'text-slate-900'}>software and web development</strong>. I possess a versatile technical skillset, including proficiency in <strong className={isDarkMode ? 'text-white' : 'text-slate-900'}>Node.js, PHP, MySQL, Java, and Python</strong>, along with modern front-end design using <strong className={isDarkMode ? 'text-white' : 'text-slate-900'}>Tailwind CSS</strong>.
                 </p>
