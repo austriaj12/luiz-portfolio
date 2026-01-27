@@ -16,7 +16,7 @@ export default function Home() {
         
         {/* Header / Intro */}
         <header className="mb-6 flex flex-col md:flex-row items-center justify-between gap-4 relative">
-          <div className="flex flex-row items-center gap-4">
+          <div className="flex flex-row items-center gap-4 pr-14 md:pr-0">
             <div className="relative w-16 h-16 md:w-24 md:h-24 shrink-0 rounded-2xl overflow-hidden border-4 border-white shadow-lg">
               <Image 
                 src={profilePic} 
