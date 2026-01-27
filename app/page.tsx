@@ -53,8 +53,8 @@ export default function Home() {
       {showSplash && (
         <div className={`fixed inset-0 z-[60] flex flex-col items-center justify-center bg-slate-950 text-white transition-opacity duration-500 ${fadeOutSplash ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
           <div className="text-center space-y-4 animate-in fade-in zoom-in duration-700 px-6">
-            <h1 className="text-3xl md:text-6xl font-bold tracking-tight"><AnimatedText text="John Luiz Sierra Austria" delayStart={0.5} /></h1>
-            <p className="text-lg md:text-2xl text-slate-400"><AnimatedText text="Aspiring Software & Web Developer | CS Student" delayStart={1.5} /></p>
+            <h1 className="text-xl md:text-6xl font-bold tracking-tight"><AnimatedText text="John Luiz Sierra Austria" delayStart={0.5} /></h1>
+            <p className="text-xs md:text-2xl text-slate-400"><AnimatedText text="Aspiring Software & Web Developer | CS Student" delayStart={1.5} /></p>
           </div>
         </div>
       )}
@@ -74,10 +74,10 @@ export default function Home() {
             </div>
             <div className="text-left flex flex-col items-start justify-between h-28 md:h-auto py-1">
               <div>
-                <h1 className={`text-lg md:text-5xl font-bold tracking-tight mb-1 transition-all duration-700 ${!showSplash ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+                <h1 className={`text-base md:text-5xl font-bold tracking-tight mb-1 transition-all duration-700 ${!showSplash ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
                   John Luiz Sierra Austria
                 </h1>
-                <p className={`text-xs md:text-xl ${isDarkMode ? 'text-slate-400' : 'text-slate-600'} ${!showSplash ? '' : 'opacity-0'}`}>
+                <p className={`text-[10px] md:text-xl ${isDarkMode ? 'text-slate-400' : 'text-slate-600'} ${!showSplash ? '' : 'opacity-0'}`}>
                   {!showSplash && <AnimatedText text="Aspiring Software & Web Developer | CS Student" delayStart={0.5} />}
                 </p>
               </div>
