@@ -1,23 +1,70 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import profilePic from "../assets/logopicture.jpg";
 import cert1 from "../assets/AI + YOU CAREER IN COMPUTER SCIENCE.jpg";
+import resumePic from "../assets/RESUME - AUSTRIAJOHNLUIZS.jpg";
+
+const AnimatedText = ({ text, className = "", delayStart = 0 }: { text: string, className?: string, delayStart?: number }) => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsVisible(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <span className={className} aria-label={text}>
+      {text.split("").map((char, index) => (
+        <span
+          key={index}
+          className={`inline-block transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}
+          style={{ transitionDelay: `${delayStart + index * 0.03}s` }}
+        >
+          {char === " " ? "\u00A0" : char}
+        </span>
+      ))}
+    </span>
+  );
+};
 
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [viewingImage, setViewingImage] = useState<any>(null);
+  const [showSplash, setShowSplash] = useState(true);
+  const [fadeOutSplash, setFadeOutSplash] = useState(false);
 
   const toggleTheme = () => setIsDarkMode(!isDarkMode);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setFadeOutSplash(true);
+      setTimeout(() => {
+        setShowSplash(false);
+      }, 500);
+    }, 3500);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <main className={`min-h-screen p-6 md:p-12 font-sans transition-colors duration-300 ${isDarkMode ? 'bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-900'}`}>
+      {/* Splash Screen */}
+      {showSplash && (
+        <div className={`fixed inset-0 z-[60] flex flex-col items-center justify-center bg-slate-950 text-white transition-opacity duration-500 ${fadeOutSplash ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+          <div className="text-center space-y-4 animate-in fade-in zoom-in duration-700 px-6">
+            <h1 className="text-3xl md:text-6xl font-bold tracking-tight"><AnimatedText text="John Luiz Sierra Austria" delayStart={0.5} /></h1>
+            <p className="text-lg md:text-2xl text-slate-400"><AnimatedText text="Aspiring Software & Web Developer | CS Student" delayStart={1.5} /></p>
+          </div>
+        </div>
+      )}
+
       <div className="max-w-6xl mx-auto">
         
         {/* Header / Intro */}
         <header className="mb-6 flex flex-col md:flex-row items-center justify-between gap-4 relative">
           <div className="flex flex-row items-center gap-4 pr-14 md:pr-0">
-            <div className="relative w-16 h-16 md:w-24 md:h-24 shrink-0 rounded-2xl overflow-hidden border-4 border-white shadow-lg">
+            <div className="relative w-28 h-28 md:w-32 md:h-32 shrink-0 rounded-2xl overflow-hidden border-4 border-white shadow-lg">
               <Image 
                 src={profilePic} 
                 alt="John Luiz Sierra Austria" 
@@ -25,23 +72,37 @@ export default function Home() {
                 className="object-cover"
               />
             </div>
-            <div className="text-left">
-              <h1 className="text-xl md:text-5xl font-bold tracking-tight mb-1 md:mb-2">John Luiz Sierra Austria</h1>
-              <p className={`text-sm md:text-xl ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>Aspiring Software & Web Developer | CS Student</p>
+            <div className="text-left flex flex-col items-start justify-between h-28 md:h-auto py-1">
+              <div>
+                <h1 className={`text-lg md:text-5xl font-bold tracking-tight mb-1 transition-all duration-700 ${!showSplash ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+                  John Luiz Sierra Austria
+                </h1>
+                <p className={`text-xs md:text-xl ${isDarkMode ? 'text-slate-400' : 'text-slate-600'} ${!showSplash ? '' : 'opacity-0'}`}>
+                  {!showSplash && <AnimatedText text="Aspiring Software & Web Developer | CS Student" delayStart={0.5} />}
+                </p>
+              </div>
+              <button
+                onClick={() => setViewingImage(resumePic)}
+                className={`px-4 py-1.5 rounded-full font-medium text-xs md:text-sm transition ${!showSplash ? 'animate-in fade-in slide-in-from-bottom-4 duration-700 delay-1000 fill-mode-forwards' : 'opacity-0'} ${isDarkMode ? 'bg-slate-800 hover:bg-slate-700 text-white' : 'bg-white hover:bg-slate-100 text-slate-900 shadow-sm'}`}
+              >
+                Resume
+              </button>
             </div>
           </div>
 
-          {/* Theme Toggle */}
-          <button 
-            onClick={toggleTheme}
-            className={`absolute top-0 right-0 md:static p-3 rounded-full shadow-sm transition-all shrink-0 ${isDarkMode ? 'bg-slate-800 text-yellow-400 hover:bg-slate-700' : 'bg-white text-slate-600 hover:bg-slate-100'}`}
-          >
-            {isDarkMode ? (
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg>
-            ) : (
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-            )}
-          </button>
+          <div className="absolute top-0 right-0 md:static flex items-center gap-3">
+            {/* Theme Toggle */}
+            <button 
+              onClick={toggleTheme}
+              className={`p-3 rounded-full shadow-sm transition-all shrink-0 ${isDarkMode ? 'bg-slate-800 text-yellow-400 hover:bg-slate-700' : 'bg-white text-slate-600 hover:bg-slate-100'}`}
+            >
+              {isDarkMode ? (
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+              )}
+            </button>
+          </div>
         </header>
 
         {/* BENTO GRID LAYOUT starts here */}
@@ -120,7 +181,7 @@ export default function Home() {
               Tech Stack
             </h3>
             <div className="flex flex-wrap gap-2">
-              {['Node.js', 'Tailwind CSS', 'MySQL', 'PHP', 'Java', 'Python', 'Git', 'SQL', 'HTML', 'JavaScript', 'C#', 'VB.NET'].map((tech) => (
+              {['Node.js', 'Tailwind CSS', 'MySQL', 'PHP', 'Python', 'Git', 'SQL', 'HTML', 'JavaScript', 'C#', 'VB.NET'].map((tech) => (
                 <span key={tech} className="bg-slate-800 px-4 py-2 rounded-lg text-sm font-medium border border-slate-700">
                   {tech}
                 </span>
@@ -129,7 +190,7 @@ export default function Home() {
           </div>
 
           {/* CARD 6: Location */}
-           <div className="md:col-span-2 bg-linear-to-br from-orange-400 to-red-500 p-8 rounded-3xl shadow-sm text-white flex flex-col justify-between">
+           <a href="https://www.google.com/maps/place/Binangonan,+Rizal" target="_blank" rel="noopener noreferrer" className="md:col-span-2 bg-linear-to-br from-orange-400 to-red-500 p-8 rounded-3xl shadow-sm text-white flex flex-col justify-between hover:brightness-95 transition-all">
              <div>
                 <h3 className="text-lg font-bold opacity-90 flex items-center gap-2">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 opacity-75"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -137,10 +198,17 @@ export default function Home() {
                 </h3>
                 <p className="text-2xl font-semibold">Binangonan, Rizal</p>
              </div>
-          </div>
+             <div className="mt-4 flex items-center gap-2 text-sm font-medium opacity-90">
+               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+               Open Map
+             </div>
+          </a>
 
           {/* CARD 7: Certificates */}
-          <div className={`md:col-span-2 p-8 rounded-3xl shadow-sm border transition-colors ${isDarkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'}`}>
+          <div 
+            className={`md:col-span-2 p-8 rounded-3xl shadow-sm border transition-colors cursor-pointer ${isDarkMode ? 'bg-slate-900 border-slate-800 hover:bg-slate-800' : 'bg-white border-slate-200 hover:bg-slate-50'}`}
+            onClick={() => setViewingImage(cert1)}
+          >
             <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 text-yellow-500"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
               Certificates
@@ -174,7 +242,7 @@ export default function Home() {
             
             <div className="space-y-3">
               {/* Email */}
-              <a href="https://mail.google.com/mail/?view=cm&fs=1&to=johnluizaustria@gmail.com" target="_blank" rel="noopener noreferrer" className={`flex items-center gap-4 p-4 rounded-2xl border transition group ${isDarkMode ? 'bg-slate-800 border-slate-700 hover:bg-slate-700' : 'bg-slate-50 border-slate-100 hover:bg-indigo-50 hover:border-indigo-100'}`}>
+              <a href="mailto:johnluizaustria@gmail.com" className={`flex items-center gap-4 p-4 rounded-2xl border transition group ${isDarkMode ? 'bg-slate-800 border-slate-700 hover:bg-slate-700' : 'bg-slate-50 border-slate-100 hover:bg-indigo-50 hover:border-indigo-100'}`}>
                 <div className="bg-white p-3 rounded-full text-indigo-600 shadow-sm group-hover:scale-110 transition">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
                 </div>
@@ -206,6 +274,26 @@ export default function Home() {
                 </div>
               </a>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Image Viewer Modal */}
+      {viewingImage && (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm" onClick={() => setViewingImage(null)}>
+          <button 
+            onClick={() => setViewingImage(null)} 
+            className="absolute top-4 right-4 p-2 text-white/70 hover:text-white z-50"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+          <div className="relative w-full h-full max-w-5xl max-h-[90vh]" onClick={(e) => e.stopPropagation()}>
+            <Image
+              src={viewingImage}
+              alt="Preview"
+              fill
+              className="object-contain"
+            />
           </div>
         </div>
       )}
