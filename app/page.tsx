@@ -65,7 +65,7 @@ export default function Home() {
     elements.forEach(el => observer.observe(el));
 
     return () => observer.disconnect();
-  }, [showSplash]);
+  }, [showSplash, isDarkMode]);
 
   const handleRipple = (event: React.MouseEvent<HTMLElement>) => {
     const button = event.currentTarget;
