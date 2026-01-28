@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import profilePic from "../assets/logopicture.jpg";
 import cert1 from "../assets/AI + YOU CAREER IN COMPUTER SCIENCE.jpg";
@@ -35,6 +35,7 @@ export default function Home() {
   const [showSplash, setShowSplash] = useState(true);
   const [fadeOutSplash, setFadeOutSplash] = useState(false);
   const [showWelcome, setShowWelcome] = useState(false);
+  const [redirectModalData, setRedirectModalData] = useState<{title: string, message: string, url: string} | null>(null);
 
   const toggleTheme = () => setIsDarkMode(!isDarkMode);
 
@@ -50,10 +51,58 @@ export default function Home() {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    if (params.get('id') === '0016929540') {
+    const id = params.get('id');
+    // Check for both the specific ID and the fallback ID from your old JS
+    if (id === '0016929540' || id === '0097491721') {
       setShowWelcome(true);
+      setShowSplash(false);
     }
   }, []);
+
+  // Scroll Animations (Intersection Observer)
+  useEffect(() => {
+    if (showSplash || showWelcome) return; // Wait for splash/welcome to finish
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.remove('opacity-0', 'translate-y-8');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    const elements = document.querySelectorAll('.animate-on-scroll');
+    elements.forEach(el => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, [showSplash, showWelcome]);
+
+  // Ripple Effect Handler
+  const handleRipple = (event: React.MouseEvent<HTMLElement>) => {
+    const button = event.currentTarget;
+    const circle = document.createElement("span");
+    const diameter = Math.max(button.clientWidth, button.clientHeight);
+    const radius = diameter / 2;
+    
+    const rect = button.getBoundingClientRect();
+    
+    circle.style.width = circle.style.height = `${diameter}px`;
+    circle.style.left = `${event.clientX - rect.left - radius}px`;
+    circle.style.top = `${event.clientY - rect.top - radius}px`;
+    circle.classList.add("ripple");
+    
+    const existingRipple = button.querySelector(".ripple");
+    if (existingRipple) {
+      existingRipple.remove();
+    }
+    
+    button.appendChild(circle);
+    
+    setTimeout(() => {
+      circle.remove();
+    }, 600);
+  };
 
   return (
     <main className={`min-h-screen p-6 md:p-12 font-sans transition-colors duration-300 ${isDarkMode ? 'bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-900'}`}>
@@ -140,7 +189,10 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[minmax(180px,auto)]">
           
           {/* CARD 1: About Me (Large, spans 2 columns, 2 rows) */}
-          <div className={`md:col-span-2 md:row-span-2 p-8 rounded-3xl shadow-sm border flex flex-col justify-between transition-colors ${isDarkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'}`}>
+          <div 
+            onClick={handleRipple}
+            className={`md:col-span-2 md:row-span-2 p-8 rounded-3xl shadow-sm border flex flex-col justify-between transition-colors relative overflow-hidden animate-on-scroll opacity-0 translate-y-8 duration-700 ease-out ${isDarkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'}`}
+          >
             <div>
               <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 text-indigo-500"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -157,7 +209,10 @@ export default function Home() {
             </div>
             <div className="mt-6">
               <button 
-                onClick={() => setIsModalOpen(true)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsModalOpen(true);
+                }}
                 className={`inline-block px-6 py-3 rounded-full font-medium transition ${isDarkMode ? 'bg-indigo-600 hover:bg-indigo-500 text-white' : 'bg-slate-900 hover:bg-slate-800 text-white'}`}
               >
                 Contact Me
@@ -166,7 +221,10 @@ export default function Home() {
           </div>
 
           {/* CARD 2: Projects (Spans 2 columns) */}
-          <div className={`md:col-span-2 p-8 rounded-3xl shadow-sm text-white relative overflow-hidden group transition-colors ${isDarkMode ? 'bg-slate-900 border border-slate-800' : 'bg-slate-900'}`}>
+          <div 
+            onClick={handleRipple}
+            className={`md:col-span-2 p-8 rounded-3xl shadow-sm text-white relative overflow-hidden group transition-colors animate-on-scroll opacity-0 translate-y-8 duration-700 ease-out ${isDarkMode ? 'bg-slate-900 border border-slate-800' : 'bg-slate-900'}`}
+          >
             <div className="relative z-10 flex flex-col gap-5">
               <h3 className="text-2xl font-bold mb-2 flex items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
@@ -190,7 +248,10 @@ export default function Home() {
           </div>
 
           {/* CARD 3: Education */}
-          <div className={`p-6 rounded-3xl shadow-sm border transition-colors ${isDarkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'}`}>
+          <div 
+            onClick={handleRipple}
+            className={`p-6 rounded-3xl shadow-sm border transition-colors relative overflow-hidden animate-on-scroll opacity-0 translate-y-8 duration-700 ease-out ${isDarkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'}`}
+          >
             <h3 className="text-lg font-bold mb-2">Education</h3>
             <p className="font-semibold text-lg">BS Computer Science</p>
             <p className={`${isDarkMode ? 'text-slate-400' : 'text-slate-600'} text-sm`}>University of Rizal System</p>
@@ -198,7 +259,10 @@ export default function Home() {
           </div>
 
           {/* CARD 4: Leadership */}
-          <div className={`p-6 rounded-3xl shadow-sm border transition-colors ${isDarkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'}`}>
+          <div 
+            onClick={handleRipple}
+            className={`p-6 rounded-3xl shadow-sm border transition-colors relative overflow-hidden animate-on-scroll opacity-0 translate-y-8 duration-700 ease-out ${isDarkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'}`}
+          >
             <h3 className="text-lg font-bold mb-2">Leadership</h3>
             <p className="font-semibold text-lg">Youth President</p>
             <p className={`${isDarkMode ? 'text-slate-400' : 'text-slate-600'} text-sm`}>TLSCF Church</p>
@@ -206,7 +270,10 @@ export default function Home() {
           </div>
 
            {/* CARD 5: Tech Stack (Wide card at bottom) */}
-           <div className={`md:col-span-2 p-8 rounded-3xl shadow-sm text-white flex flex-col justify-center transition-colors ${isDarkMode ? 'bg-slate-900 border border-slate-800' : 'bg-slate-900'}`}>
+           <div 
+            onClick={handleRipple}
+            className={`md:col-span-2 p-8 rounded-3xl shadow-sm text-white flex flex-col justify-center transition-colors relative overflow-hidden animate-on-scroll opacity-0 translate-y-8 duration-700 ease-out ${isDarkMode ? 'bg-slate-900 border border-slate-800' : 'bg-slate-900'}`}
+           >
             <h3 className="text-xl font-bold mb-4 text-slate-400 flex items-center gap-2">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
               Tech Stack
@@ -221,7 +288,11 @@ export default function Home() {
           </div>
 
           {/* CARD 6: Location */}
-           <a href="https://www.google.com/maps/place/Binangonan,+Rizal" target="_blank" rel="noopener noreferrer" className="md:col-span-2 bg-linear-to-br from-orange-400 to-red-500 p-8 rounded-3xl shadow-sm text-white flex flex-col justify-between hover:brightness-95 transition-all">
+           <a 
+            href="https://www.google.com/maps/place/Binangonan,+Rizal" target="_blank" rel="noopener noreferrer" 
+            onClick={handleRipple}
+            className="md:col-span-2 bg-linear-to-br from-orange-400 to-red-500 p-8 rounded-3xl shadow-sm text-white flex flex-col justify-between hover:brightness-95 transition-all relative overflow-hidden animate-on-scroll opacity-0 translate-y-8 duration-700 ease-out"
+           >
              <div>
                 <h3 className="text-lg font-bold opacity-90 flex items-center gap-2">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 opacity-75"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -237,8 +308,11 @@ export default function Home() {
 
           {/* CARD 7: Certificates */}
           <div 
-            className={`md:col-span-2 p-8 rounded-3xl shadow-sm border transition-colors cursor-pointer ${isDarkMode ? 'bg-slate-900 border-slate-800 hover:bg-slate-800' : 'bg-white border-slate-200 hover:bg-slate-50'}`}
-            onClick={() => setViewingImage(cert1)}
+            className={`md:col-span-2 p-8 rounded-3xl shadow-sm border transition-colors cursor-pointer relative overflow-hidden animate-on-scroll opacity-0 translate-y-8 duration-700 ease-out ${isDarkMode ? 'bg-slate-900 border-slate-800 hover:bg-slate-800' : 'bg-white border-slate-200 hover:bg-slate-50'}`}
+            onClick={(e) => {
+              handleRipple(e);
+              setViewingImage(cert1);
+            }}
           >
             <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 text-yellow-500"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
@@ -309,6 +383,33 @@ export default function Home() {
         </div>
       )}
 
+      {/* Redirect Modal (From JS Logic) */}
+      {redirectModalData && (
+        <div className="fixed inset-0 z-[90] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-300">
+          <div className={`rounded-3xl p-8 max-w-sm w-full shadow-2xl text-center space-y-6 animate-in zoom-in-95 duration-300 ${isDarkMode ? 'bg-slate-900 text-white' : 'bg-white text-slate-900'}`}>
+            <h3 className="text-2xl font-bold">{redirectModalData.title}</h3>
+            <p className={`${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>{redirectModalData.message}</p>
+            <div className="flex gap-3">
+              <button 
+                onClick={() => setRedirectModalData(null)}
+                className={`flex-1 py-3 rounded-xl font-bold transition ${isDarkMode ? 'bg-slate-800 hover:bg-slate-700' : 'bg-slate-100 hover:bg-slate-200'}`}
+              >
+                Cancel
+              </button>
+              <a 
+                href={redirectModalData.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setRedirectModalData(null)}
+                className={`flex-1 py-3 rounded-xl font-bold text-white transition ${isDarkMode ? 'bg-indigo-600 hover:bg-indigo-500' : 'bg-slate-900 hover:bg-slate-800'}`}
+              >
+                Continue
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Image Viewer Modal */}
       {viewingImage && (
         <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm" onClick={() => setViewingImage(null)}>
@@ -328,6 +429,24 @@ export default function Home() {
           </div>
         </div>
       )}
+
+      {/* Styles for Ripple Effect */}
+      <style jsx global>{`
+        .ripple {
+          position: absolute;
+          border-radius: 50%;
+          transform: scale(0);
+          animation: ripple 600ms linear;
+          background-color: rgba(255, 255, 255, 0.3);
+          pointer-events: none;
+        }
+        @keyframes ripple {
+          to {
+            transform: scale(4);
+            opacity: 0;
+          }
+        }
+      `}</style>
     </main>
   );
 }
