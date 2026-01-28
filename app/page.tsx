@@ -34,7 +34,6 @@ export default function Home() {
   const [viewingImage, setViewingImage] = useState<any>(null);
   const [showSplash, setShowSplash] = useState(true);
   const [fadeOutSplash, setFadeOutSplash] = useState(false);
-  const [showWelcome, setShowWelcome] = useState(false);
   const [redirectModalData, setRedirectModalData] = useState<{title: string, message: string, url: string} | null>(null);
 
   const toggleTheme = () => setIsDarkMode(!isDarkMode);
@@ -49,19 +48,9 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, []);
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get('id');
-    // Check for both the specific ID and the fallback ID from your old JS
-    if (id === '0016929540' || id === '0097491721') {
-      setShowWelcome(true);
-      setShowSplash(false);
-    }
-  }, []);
-
   // Scroll Animations (Intersection Observer)
   useEffect(() => {
-    if (showSplash || showWelcome) return; // Wait for splash/welcome to finish
+    if (showSplash) return; // Wait for splash to finish
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -76,7 +65,7 @@ export default function Home() {
     elements.forEach(el => observer.observe(el));
 
     return () => observer.disconnect();
-  }, [showSplash, showWelcome]);
+  }, [showSplash]);
 
   // Ripple Effect Handler
   const handleRipple = (event: React.MouseEvent<HTMLElement>) => {
@@ -112,29 +101,6 @@ export default function Home() {
           <div className="text-center space-y-4 animate-in fade-in zoom-in duration-700 px-6">
             <h1 className="text-xl md:text-6xl font-bold tracking-tight"><AnimatedText text="John Luiz Sierra Austria" delayStart={0.5} /></h1>
             <p className="text-xs md:text-2xl text-slate-400"><AnimatedText text="Aspiring Software & Web Developer | CS Student" delayStart={1.5} /></p>
-          </div>
-        </div>
-      )}
-
-      {/* Welcome Modal (NFC Scan) */}
-      {showWelcome && (
-        <div className="fixed inset-0 z-[80] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-300">
-          <div className={`rounded-3xl p-8 max-w-sm w-full shadow-2xl text-center space-y-6 animate-in zoom-in-95 duration-300 ${isDarkMode ? 'bg-slate-900 text-white' : 'bg-white text-slate-900'}`}>
-            <div className={`mx-auto w-16 h-16 rounded-full flex items-center justify-center ${isDarkMode ? 'bg-indigo-900/50 text-indigo-400' : 'bg-indigo-50 text-indigo-600'}`}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/></svg>
-            </div>
-            <div>
-              <h3 className="text-2xl font-bold mb-2">Welcome!</h3>
-              <p className={`${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
-                Thanks for scanning my NFC card. I'm glad you're here!
-              </p>
-            </div>
-            <button 
-              onClick={() => setShowWelcome(false)}
-              className={`w-full py-3 rounded-xl font-bold transition transform active:scale-95 ${isDarkMode ? 'bg-indigo-600 hover:bg-indigo-500 text-white' : 'bg-slate-900 hover:bg-slate-800 text-white'}`}
-            >
-              Continue to Portfolio
-            </button>
           </div>
         </div>
       )}
