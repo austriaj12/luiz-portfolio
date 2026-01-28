@@ -28,6 +28,7 @@ const AnimatedText = ({ text, className = "", delayStart = 0 }: { text: string, 
   );
 };
 
+// Main Function
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -48,9 +49,8 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Scroll Animations (Intersection Observer)
   useEffect(() => {
-    if (showSplash) return; // Wait for splash to finish
+    if (showSplash) return;
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -67,7 +67,6 @@ export default function Home() {
     return () => observer.disconnect();
   }, [showSplash]);
 
-  // Ripple Effect Handler
   const handleRipple = (event: React.MouseEvent<HTMLElement>) => {
     const button = event.currentTarget;
     const circle = document.createElement("span");
@@ -95,7 +94,6 @@ export default function Home() {
 
   return (
     <main className={`min-h-screen p-6 md:p-12 font-sans transition-colors duration-300 ${isDarkMode ? 'bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-900'}`}>
-      {/* Splash Screen */}
       {showSplash && (
         <div className={`fixed inset-0 z-[60] flex flex-col items-center justify-center bg-slate-950 text-white transition-opacity duration-500 ${fadeOutSplash ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
           <div className="text-center space-y-4 animate-in fade-in zoom-in duration-700 px-6">
@@ -107,7 +105,6 @@ export default function Home() {
 
       <div className="max-w-6xl mx-auto">
         
-        {/* Header / Intro */}
         <header className="mb-6 flex flex-col md:flex-row items-center justify-between gap-4 relative">
           <div className="flex flex-row items-center gap-4 pr-14 md:pr-0">
             <div className="relative w-28 h-28 md:w-32 md:h-32 shrink-0 rounded-2xl overflow-hidden border-4 border-white shadow-lg">
@@ -137,7 +134,6 @@ export default function Home() {
           </div>
 
           <div className="absolute top-0 right-0 md:static flex items-center gap-3">
-            {/* Theme Toggle */}
             <button 
               onClick={toggleTheme}
               className={`p-3 rounded-full shadow-sm transition-all shrink-0 ${isDarkMode ? 'bg-slate-800 text-yellow-400 hover:bg-slate-700' : 'bg-white text-slate-600 hover:bg-slate-100'}`}
@@ -151,10 +147,8 @@ export default function Home() {
           </div>
         </header>
 
-        {/* BENTO GRID LAYOUT starts here */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[minmax(180px,auto)]">
           
-          {/* CARD 1: About Me (Large, spans 2 columns, 2 rows) */}
           <div 
             onClick={handleRipple}
             className={`md:col-span-2 md:row-span-2 p-8 rounded-3xl shadow-sm border flex flex-col justify-between transition-colors relative overflow-hidden animate-on-scroll opacity-0 translate-y-8 duration-700 ease-out ${isDarkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'}`}
@@ -186,7 +180,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* CARD 2: Projects (Spans 2 columns) */}
           <div 
             onClick={handleRipple}
             className={`md:col-span-2 p-8 rounded-3xl shadow-sm text-white relative overflow-hidden group transition-colors animate-on-scroll opacity-0 translate-y-8 duration-700 ease-out ${isDarkMode ? 'bg-slate-900 border border-slate-800' : 'bg-slate-900'}`}
@@ -209,11 +202,9 @@ export default function Home() {
                 <p className="text-slate-300 text-sm leading-snug">Smart NFC cards for church invitations and digital portfolio sharing.</p>
               </div>
             </div>
-            {/* Decorative Circle */}
             <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-slate-800 rounded-full opacity-50 group-hover:scale-110 transition duration-500"></div>
           </div>
 
-          {/* CARD 3: Education */}
           <div 
             onClick={handleRipple}
             className={`p-6 rounded-3xl shadow-sm border transition-colors relative overflow-hidden animate-on-scroll opacity-0 translate-y-8 duration-700 ease-out ${isDarkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'}`}
@@ -224,7 +215,6 @@ export default function Home() {
             <p className={`${isDarkMode ? 'text-slate-500' : 'text-slate-600'} text-xs mt-1`}>2021 - 2026</p>
           </div>
 
-          {/* CARD 4: Leadership */}
           <div 
             onClick={handleRipple}
             className={`p-6 rounded-3xl shadow-sm border transition-colors relative overflow-hidden animate-on-scroll opacity-0 translate-y-8 duration-700 ease-out ${isDarkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'}`}
@@ -235,7 +225,6 @@ export default function Home() {
             <p className={`${isDarkMode ? 'text-slate-500' : 'text-slate-600'} text-xs mt-2`}>Project Management & Mentorship</p>
           </div>
 
-           {/* CARD 5: Tech Stack (Wide card at bottom) */}
            <div 
             onClick={handleRipple}
             className={`md:col-span-2 p-8 rounded-3xl shadow-sm text-white flex flex-col justify-center transition-colors relative overflow-hidden animate-on-scroll opacity-0 translate-y-8 duration-700 ease-out ${isDarkMode ? 'bg-slate-900 border border-slate-800' : 'bg-slate-900'}`}
@@ -253,7 +242,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* CARD 6: Location */}
            <a 
             href="https://www.google.com/maps/place/Binangonan,+Rizal" target="_blank" rel="noopener noreferrer" 
             onClick={handleRipple}
@@ -272,7 +260,6 @@ export default function Home() {
              </div>
           </a>
 
-          {/* CARD 7: Certificates */}
           <div 
             className={`md:col-span-2 p-8 rounded-3xl shadow-sm border transition-colors cursor-pointer relative overflow-hidden animate-on-scroll opacity-0 translate-y-8 duration-700 ease-out ${isDarkMode ? 'bg-slate-900 border-slate-800 hover:bg-slate-800' : 'bg-white border-slate-200 hover:bg-slate-50'}`}
             onClick={(e) => {
@@ -298,7 +285,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Contact Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onClick={() => setIsModalOpen(false)}>
           <div className={`rounded-3xl p-8 max-w-md w-full shadow-2xl relative animate-in fade-in zoom-in duration-200 ${isDarkMode ? 'bg-slate-900 text-white' : 'bg-white text-slate-900'}`} onClick={(e) => e.stopPropagation()}>
@@ -312,7 +298,6 @@ export default function Home() {
             <h3 className={`text-2xl font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>Let's Connect</h3>
             
             <div className="space-y-3">
-              {/* Email */}
               <a href="mailto:johnluizaustria@gmail.com" className={`flex items-center gap-4 p-4 rounded-2xl border transition group ${isDarkMode ? 'bg-slate-800 border-slate-700 hover:bg-slate-700' : 'bg-slate-50 border-slate-100 hover:bg-indigo-50 hover:border-indigo-100'}`}>
                 <div className="bg-white p-3 rounded-full text-indigo-600 shadow-sm group-hover:scale-110 transition">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
@@ -323,7 +308,6 @@ export default function Home() {
                 </div>
               </a>
 
-              {/* Facebook / Social */}
               <a href="https://www.facebook.com/Austriajohnluiz25" target="_blank" rel="noopener noreferrer" className={`flex items-center gap-4 p-4 rounded-2xl border transition group ${isDarkMode ? 'bg-slate-800 border-slate-700 hover:bg-slate-700' : 'bg-slate-50 border-slate-100 hover:bg-blue-50 hover:border-blue-100'}`}>
                 <div className="bg-white p-3 rounded-full text-blue-600 shadow-sm group-hover:scale-110 transition">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
@@ -334,7 +318,6 @@ export default function Home() {
                 </div>
               </a>
 
-              {/* Phone (Placeholder) */}
               <a href="tel:+639457742361" className={`flex items-center gap-4 p-4 rounded-2xl border transition group ${isDarkMode ? 'bg-slate-800 border-slate-700 hover:bg-slate-700' : 'bg-slate-50 border-slate-100 hover:bg-emerald-50 hover:border-emerald-100'}`}>
                 <div className="bg-white p-3 rounded-full text-emerald-600 shadow-sm">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
@@ -349,7 +332,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* Redirect Modal (From JS Logic) */}
       {redirectModalData && (
         <div className="fixed inset-0 z-[90] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-300">
           <div className={`rounded-3xl p-8 max-w-sm w-full shadow-2xl text-center space-y-6 animate-in zoom-in-95 duration-300 ${isDarkMode ? 'bg-slate-900 text-white' : 'bg-white text-slate-900'}`}>
@@ -376,7 +358,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* Image Viewer Modal */}
       {viewingImage && (
         <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm" onClick={() => setViewingImage(null)}>
           <button 
@@ -396,7 +377,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* Styles for Ripple Effect */}
       <style jsx global>{`
         .ripple {
           position: absolute;
