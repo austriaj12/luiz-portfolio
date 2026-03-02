@@ -43,6 +43,7 @@ export default function ContactModal({ isOpen, onClose, isDarkMode }: ContactMod
                 },
                 (error) => {
                     console.error("EmailJS Error:", error);
+                    alert("EmailJS Error: " + (error.text || error.message || JSON.stringify(error)));
                     setIsSubmitting(false);
                     setSubmitStatus("error");
                 },
