@@ -7,6 +7,7 @@ import resumePic from "../assets/RESUME - AUSTRIAJOHNLUIZS.jpg";
 import project1 from "../assets/Projects/Fittech/web1.png";
 import project2 from "../assets/Projects/Fittech/web2.png";
 import Chatbot from "./components/Chatbot";
+import ContactModal from './components/ContactModal';
 
 const AnimatedText = ({ text, className = "", delayStart = 0 }: { text: string, className?: string, delayStart?: number }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -59,6 +60,7 @@ export default function Home() {
   const [showSplash, setShowSplash] = useState(true);
   const [fadeOutSplash, setFadeOutSplash] = useState(false);
   const [redirectModalData, setRedirectModalData] = useState<{ title: string, message: string, url: string } | null>(null);
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
   const toggleTheme = () => setIsDarkMode(!isDarkMode);
 
@@ -386,7 +388,7 @@ export default function Home() {
               </div>
               <h2 className="text-3xl font-black tracking-tight mb-2">Let&apos;s Work Together</h2>
               <p className={`text-sm md:text-base max-w-sm mb-8 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>Available for internship roles immediately. Let&apos;s make magic happen together!</p>
-              <button onClick={() => setIsModalOpen(true)} className="px-8 py-4 bg-white text-black hover:bg-slate-200 rounded-full font-bold transition-all shadow-xl hover:scale-105 active:scale-95 text-sm uppercase tracking-widest">
+              <button onClick={() => setIsContactModalOpen(true)} className="px-8 py-4 bg-white text-black hover:bg-slate-200 rounded-full font-bold transition-all shadow-xl hover:scale-105 active:scale-95 text-sm uppercase tracking-widest">
                 Schedule a Call
               </button>
             </div>
@@ -444,6 +446,12 @@ export default function Home() {
           </div>
         </div>
       )}
+
+      <ContactModal
+        isOpen={isContactModalOpen}
+        onClose={() => setIsContactModalOpen(false)}
+        isDarkMode={isDarkMode}
+      />
 
       {redirectModalData && (
         <div className="fixed inset-0 z-[90] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-300">

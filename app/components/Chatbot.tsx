@@ -1,5 +1,7 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
+import Image from "next/image";
+import profilePic from "../../assets/logopicture.jpg";
 
 type Message = {
     role: "user" | "model";
@@ -9,7 +11,7 @@ type Message = {
 export default function Chatbot() {
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState<Message[]>([
-        { role: "model", text: "Hi! I'm John's AI assistant. Ask me anything about his portfolio or resume!" }
+        { role: "model", text: "Hi! I'm Luiz AI assistant. Ask me anything about his portfolio or resume!" }
     ]);
     const [input, setInput] = useState("");
     const [isLoading, setIsLoading] = useState(false);
@@ -65,7 +67,12 @@ export default function Chatbot() {
             {isOpen && (
                 <div className="bg-slate-900 border border-slate-700 shadow-2xl rounded-2xl w-80 sm:w-96 h-[500px] mb-4 flex flex-col overflow-hidden animate-in slide-in-from-bottom-5 duration-300">
                     <div className="bg-gradient-to-r from-cyan-600 to-blue-600 text-white p-4 font-bold flex justify-between items-center shadow-md">
-                        <span>John&apos;s AI Assistant</span>
+                        <div className="flex items-center gap-3">
+                            <div className="relative w-8 h-8 rounded-full overflow-hidden border-2 border-white/50 shadow-sm">
+                                <Image src={profilePic} alt="AI Avatar" fill className="object-cover" />
+                            </div>
+                            <span>John&apos;s AI Assistant</span>
+                        </div>
                         <button onClick={() => setIsOpen(false)} className="hover:text-slate-200 transition">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                         </button>
@@ -73,7 +80,12 @@ export default function Chatbot() {
 
                     <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-900/50 backdrop-blur-md">
                         {messages.map((m, i) => (
-                            <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
+                            <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start gap-2"}`}>
+                                {m.role === "model" && (
+                                    <div className="relative w-6 h-6 rounded-full overflow-hidden shrink-0 mt-1 border border-slate-700">
+                                        <Image src={profilePic} alt="AI" fill className="object-cover" />
+                                    </div>
+                                )}
                                 <div className={`p-3 rounded-2xl max-w-[85%] text-sm ${m.role === "user" ? "bg-cyan-600 text-white rounded-tr-sm" : "bg-slate-800 border border-slate-700 text-slate-200 rounded-tl-sm"}`}>
                                     {m.text}
                                 </div>

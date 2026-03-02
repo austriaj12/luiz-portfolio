@@ -29,22 +29,13 @@ export async function POST(req: Request) {
     try {
         const { history, message } = await req.json();
 
-        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-
-        // For gemini-pro, system instructions are often passed as the first message or prepended if not natively supported.
-        const chatHistory = history && history.length > 0 ? history : [
-            {
-                role: "user",
-                parts: [{ text: `System Instruction (Follow this strictly): ${SYSTEM_PROMPT}\n\nUser says: Hello` }],
-            },
-            {
-                role: "model",
-                parts: [{ text: "Hi! I'm John's AI assistant. Ask me anything about his portfolio or resume!" }],
-            }
-        ];
+        const model = genAI.getGenerativeModel({
+            model: "gemini-1.5-flash",
+            systemInstruction: SYSTEM_PROMPT
+        });
 
         const chat = model.startChat({
-            history: chatHistory,
+            history: history || [],
         });
 
         const result = await chat.sendMessage(message);
