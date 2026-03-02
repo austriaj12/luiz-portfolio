@@ -22,19 +22,9 @@ export default function ContactModal({ isOpen, onClose, isDarkMode }: ContactMod
         setIsSubmitting(true);
         setSubmitStatus("idle");
 
-        // Replace these three placeholders once the user creates their EmailJS account!
         const SERVICE_ID = "service_rm40fbn";
-        const TEMPLATE_ID = "service_rm40fbn";
+        const TEMPLATE_ID = "template_0n5551n";
         const PUBLIC_KEY = "7O6TRdx_IOWOdGzdu";
-
-        if (SERVICE_ID === "service_rm40fbn") {
-            // Temporary fake loading for now until they provide keys
-            setTimeout(() => {
-                setIsSubmitting(false);
-                setSubmitStatus("success");
-            }, 1500);
-            return;
-        }
 
         emailjs
             .sendForm(SERVICE_ID, TEMPLATE_ID, form.current, {
