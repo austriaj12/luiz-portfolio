@@ -224,7 +224,7 @@ export default function Home() {
 
         {/* Work Experience Section (From Figma) */}
         <section>
-          <h2 className="text-3xl font-bold mb-10 text-center lg:text-left">Work Experience</h2>
+          <h2 className="text-3xl font-bold mb-10 text-center lg:text-left animate-on-scroll opacity-0 translate-y-8 duration-700 ease-out">Work Experience</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
             {/* Experience Card 1 (Leadership) */}
@@ -266,7 +266,7 @@ export default function Home() {
 
         {/* Featured Projects Section (From Figma) */}
         <section className="space-y-16">
-          <h2 className="text-3xl font-bold text-center lg:text-left">Featured Projects</h2>
+          <h2 className="text-3xl font-bold text-center lg:text-left animate-on-scroll opacity-0 translate-y-8 duration-700 ease-out">Featured Projects</h2>
 
           {/* Project 1 */}
           <div className="flex flex-col lg:flex-row items-center gap-12 animate-on-scroll opacity-0 translate-y-8 duration-700 ease-out">
@@ -371,12 +371,12 @@ export default function Home() {
         {/* Contact Section (From Figma) */}
         <section className="pt-10 border-t border-slate-800/50 pb-20">
           <div className="max-w-2xl">
-            <h2 className="text-3xl font-bold mb-6">Contact</h2>
-            <p className={`text-lg mb-8 ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
+            <h2 className="text-3xl font-bold mb-6 animate-on-scroll opacity-0 translate-y-8 duration-700 ease-out">Contact</h2>
+            <p className={`text-lg mb-8 animate-on-scroll opacity-0 translate-y-8 duration-700 ease-out ${isDarkMode ? 'text-slate-400' : 'text-slate-600'}`}>
               I&apos;m currently looking to join a cross-functional team that values improving people&apos;s lives through robust design and architecture. Or have a project in mind? Let&apos;s connect.
             </p>
-            <p className="font-bold text-xl mb-6">johnluizaustria@gmail.com</p>
-            <div className="flex gap-4">
+            <p className="font-bold text-xl mb-6 animate-on-scroll opacity-0 translate-y-8 duration-700 ease-out">johnluizaustria@gmail.com</p>
+            <div className="flex gap-4 animate-on-scroll opacity-0 translate-y-8 duration-700 ease-out">
               <a href="mailto:johnluizaustria@gmail.com" className={`p-4 rounded-full transition-colors ${isDarkMode ? 'bg-slate-800 hover:bg-slate-700 text-white' : 'bg-slate-100 hover:bg-slate-200 text-slate-900'}`}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
               </a>
